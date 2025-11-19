@@ -8,10 +8,10 @@ $usuario = $_SESSION["user"]?? null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cartelera - Cinemark</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="{% static 'css/cartelera.css' %}">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cartelera.css">
 <?php
-include 'header.php'; 
+require_once __DIR__ . '/header.php'; 
 ?>
 <body>
     <main>
@@ -24,5 +24,5 @@ include 'header.php';
 
 
 <?php
-include 'footer.php';
+require_once __DIR__ . '/footer.php';
 ?>

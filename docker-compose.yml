@@ -4,6 +4,7 @@ version: '3.8'
 services:
   #Servicio de PHP + Apache
   app:
+    container_name: Cine_app
     build: .
     volumes:
       - ./src:/var/www/html
