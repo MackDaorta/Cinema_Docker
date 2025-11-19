@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Work Sans', sans-serif;
+    background-color: #12100D;
+    color: white;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #12100D;
+    border-bottom: 1px solid gray;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: whitesmoke;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+nav a.activo {
+    text-decoration: underline;
+}
+
+nav a.principal {
+    background-color: #850F0F;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+}
+
+nav a.principal:hover {
+    background-color: #B71C1C;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    color: grey;
+    transition: color 0.3s ease;
+}
+
+.titulo {
+    text-align: center;
+    margin: 30px 0;
+    font-size: 24px;
+    color: white;
+}
+
+.cartelera-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 0 40px 40px;
+}
+
+.pelicula {
+    background-color: #1e1c19;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+.pelicula img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.pelicula h3 {
+    margin: 15px 0 10px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.pelicula p {
+    font-size: 14px;
+    color: #ccc;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #1e1c19;
+}
+
+footer p, footer h3 {
+    color: white;
+    font-size: 14px;
+}
