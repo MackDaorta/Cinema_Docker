@@ -26,18 +26,6 @@ $trabajo_boton_link = '#'; // Enlace al formulario de solicitud
 </head>
 <body>
 
-    <header>
-        <div class="logo-cinemark">C</div>
-        <nav>
-            <a href="#">Inicio</a>
-            <a href="#">Cartelera</a>
-            <a href="#">Salas</a>
-            <a href="#">Confitería</a>
-            <a href="#" class="activo">Conócenos</a>
-            <a href="#" class="principal">Ubícanos</a>
-        </nav>
-    </header>
-
     <main class="contentConocenos">
         <div class="container">
             
@@ -68,9 +56,6 @@ $trabajo_boton_link = '#'; // Enlace al formulario de solicitud
             
         </div>
     </main>
-
-    <footer>
-        </footer>
 
 </body>
 </html>
