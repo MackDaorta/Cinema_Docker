@@ -1,0 +1,63 @@
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: center;
+}
+
+.section:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.section img {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.section-content {
+  flex: 1 1 400px;
+  padding: 20px;
+}
+
+.section-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #e53935;
+}
+
+.section-content p {
+  font-size: 1rem;
+  color: #ddd;
+  text-align: justify;
+}
+.contentConocenos {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #e53935;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+}
