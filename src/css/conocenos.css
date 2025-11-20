@@ -1,63 +1,182 @@
+/* =================== BASE Y TIPOGRAFÍA =================== */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Work Sans', 'Arial', sans-serif; 
+    background-color: #12100D; /* Fondo muy oscuro */
+    color: white;
+}
+
+/* =================== HEADER Y NAVEGACIÓN (Unificado) =================== */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #12100D;
+    border-bottom: 1px solid #1e1c19;
+}
+
+.logo-cinemark {
+    /* Aquí iría tu logo 'C' de Cinemark */
+    font-size: 24px;
+    font-weight: bold;
+    color: #850F0F; /* Rojo del logo */
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: whitesmoke;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+}
+
+nav a.activo {
+    text-decoration: underline;
+    text-decoration-color: #850F0F;
+    text-underline-offset: 4px;
+    font-weight: bold;
+}
+
+nav a.principal {
+    background-color: #850F0F;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+nav a.principal:hover {
+    background-color: #B71C1C;
+}
+
+nav a:hover {
+    color: #850F0F;
+}
+
+
+/* =================== SECCIÓN CONÓCENOS ESPECÍFICA =================== */
+
+.contentConocenos {
+    /* Usamos esto como wrapper para padding */
+    padding: 50px 80px; 
+}
+
 .container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 80px; /* Más espacio entre secciones */
 }
 
 .section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+    /* Añade una separación sutil */
+    padding-bottom: 40px; 
+    border-bottom: 1px dashed #333; 
+}
+
+.section:last-child {
+    border-bottom: none;
 }
 
 .section:nth-child(even) {
-  flex-direction: row-reverse;
+    flex-direction: row-reverse; /* Cambia el orden de imagen y texto (Trabaja con Nosotros) */
+}
+
+.section-image {
+    flex-basis: 500px; /* Tamaño máximo para la imagen */
+    flex-grow: 1; /* Permite que crezca */
+    max-width: 100%;
 }
 
 .section img {
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: auto;
+    max-height: 400px; /* Limita la altura de la imagen */
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8); /* Sombra más pronunciada */
 }
 
 .section-content {
-  flex: 1 1 400px;
-  padding: 20px;
+    flex: 1 1 450px; /* Permite que el contenido crezca y tenga un mínimo de 450px */
+    padding: 10px 0;
 }
 
 .section-content h2 {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-  color: #e53935;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #fff; /* Título blanco */
+    border-bottom: 3px solid #850F0F; /* Subrayado rojo */
+    padding-bottom: 5px;
+    font-weight: 700;
 }
 
 .section-content p {
-  font-size: 1rem;
-  color: #ddd;
-  text-align: justify;
-}
-.contentConocenos {
-  padding-top: 50px;
-  padding-bottom: 50px;
-  padding-left: 80px;
-  padding-right: 80px;
+    font-size: 1.1rem;
+    color: #ccc; /* Texto gris claro */
+    line-height: 1.6;
+    margin-bottom: 25px;
 }
 
+/* Estilo del Botón */
 .btn {
-  display: inline-block;
-  padding: 12px 24px;
-  background: #e53935;
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 8px;
-  transition: 0.3s;
+    display: inline-block;
+    padding: 12px 24px;
+    background: #850F0F; /* Color principal de CINEMARK */
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
 }
 
 .btn:hover {
-  background: #ff5252;
-  transform: translateY(-2px);
+    background: #B71C1C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* =================== MEDIA QUERIES (Responsividad) =================== */
+@media (max-width: 900px) {
+    .contentConocenos {
+        padding: 30px 20px;
+    }
+    .section, .section:nth-child(even) {
+        flex-direction: column; /* Apilar imagen y texto */
+        gap: 20px;
+    }
+    .section-image {
+        order: -1; /* Mantiene la imagen primero en el móvil para todas las secciones */
+        flex-basis: auto;
+    }
+    .section-content h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+    .section-content p {
+        text-align: left; /* Alineación izquierda para el texto en móvil */
+    }
+    .section-content {
+        text-align: center; /* Centrar elementos dentro del contenido (como el botón) */
+    }
 }
