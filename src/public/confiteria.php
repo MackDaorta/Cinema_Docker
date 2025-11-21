@@ -31,7 +31,7 @@ foreach ($productos as $producto) {
     <link rel="stylesheet" href="../css/confiteria.css">
 </head>
 <body>
-<?php require_once __DIR__ . '/header.php'; ?>
+<?php require_once __DIR__ . '/public/header.php'; ?>
 <main>
     <h2 class="titulo">Menú de Confitería</h2>
     <div class="confiteria-grid">
@@ -56,6 +56,6 @@ foreach ($productos as $producto) {
         <?php endforeach; ?>
     </div>
 </main>
-<?php require_once __DIR__ . '/footer.php'; ?>
+<?php require_once __DIR__ . '/public/footer.php'; ?>
 </body>
 </html>

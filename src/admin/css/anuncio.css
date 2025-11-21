@@ -1,0 +1,93 @@
+.form-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #19191A; /* fondo oscuro Cinemark */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.form-container h2 {
+    color: #C60017; /* rojo Cinemark */
+    border-bottom: 2px solid #C60017;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    color: #FFF;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #282828;
+    background-color: #232326;
+    color: #FFF;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-group input[type="file"] {
+    background-color: #282828;
+    border: 1px dashed #C60017; 
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    color: #FFF;
+    border-radius: 5px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    height: 100px;
+}
+.btn-action {
+    background-color: #C60017; /* rojo Cinemark */
+    color: #FFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+.btn-action:hover {
+    background-color: #F6C700; /* amarillo Cinemark */
+    color: #C60017;
+    box-shadow: 0 0 0 3px #F6C70044;
+}
+.promotions-list {
+    margin-top: 40px;
+}
+.promotion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #232326;
+    border-left: 5px solid #C60017;
+    border-radius: 5px;
+    color: #FFF;
+}
+.promotion-item .actions button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 14px;
+}
+.btn-edit {
+    background-color: #F6C700; /* amarillo */
+    color: #19191A; /* oscuro para contraste */
+    border: none;
+}
+.btn-delete {
+    background-color: #C60017;
+    color: #FFF;
+    border: none;
+}

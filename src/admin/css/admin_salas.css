@@ -1,0 +1,126 @@
+.centro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: #19191A; /* Cinemark fondo oscuro */
+    border: 1px solid #232326;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.titulo {
+    margin-top: 0;
+    font-size: 1.6rem;
+    color: #C60017; /* Rojo Cinemark */
+    font-weight: bold;
+}
+
+.form-container {
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #FFF;
+}
+
+input[type="text"],
+textarea {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    background-color: #232326;
+    color: #FFF;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: none;
+}
+
+input:focus,
+textarea:focus {
+    outline: 2px solid #C60017; /* Rojo Cinemark */
+}
+
+.btn-action {
+    background-color: #C60017; /* Rojo Cinemark */
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.btn-action:hover {
+    background-color: #F6C700; /* Amarillo Cinemark */
+    color: #C60017;
+    transform: scale(1.05);
+}
+
+.salas-list {
+    margin-top: 30px;
+    width: 100%;
+    background-color: #232326; /* fondo oscuro Cinemark */
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #444;
+}
+
+.salas-list h2 {
+    margin-top: 0;
+    color: #C60017;
+    text-align: center;
+}
+
+#salasContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.sala-card {
+    background-color: #282828; /* variante oscura Cinemark */
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.sala-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.sala-card h3 {
+    margin: 10px 0 5px 0;
+    color: #C60017;
+}
+
+.sala-card p {
+    font-size: 0.9rem;
+    color: #F6C700; /* amarillo Cinemark */
+}
+
+.sala-card .price {
+    color: #F6C700;
+    font-weight: bold;
+}

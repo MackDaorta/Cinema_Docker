@@ -25,7 +25,7 @@ $cartelera = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../css/salas.css">
 </head>
 <body>
-<?php require_once __DIR__ . '/header.php'; ?>
+<?php require_once __DIR__ . '/public/header.php'; ?>
     <main>
         <h2 class="titulo">Nuestras Salas</h2>
         <div class="salas-grid">
@@ -62,6 +62,6 @@ $cartelera = $stmt2->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         </div>
     </main>
-<?php require_once __DIR__ . '/footer.php'; ?>
+<?php require_once __DIR__ . '/public/footer.php'; ?>
 </body>
 </html>
