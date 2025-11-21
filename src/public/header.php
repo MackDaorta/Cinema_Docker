@@ -16,7 +16,7 @@
             }
             echo '<a href="logout.php">Cerrar Sesión</a>';
         } else {
-            echo '<a href="login.php">Iniciar Sesión</a>';
+            echo '<a href="/public/login.php">Iniciar Sesión</a>';
         }
         ?>
     </nav>
