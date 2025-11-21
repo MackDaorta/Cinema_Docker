@@ -21,7 +21,9 @@ $trabajo_boton_link = '#';
     <link rel="stylesheet" href="../css/conocenos.css">
 </head>
 <body>
-<?php require_once __DIR__ . '/public/header.php'; ?>
+<?php
+require_once __DIR__ . '/header.php'; 
+?>
     <main class="contentConocenos">
         <div class="container">
             <section class="section">
@@ -45,6 +47,8 @@ $trabajo_boton_link = '#';
             </section>
         </div>
     </main>
-<?php require_once __DIR__ . '/public/footer.php'; ?>
+<?php
+require_once __DIR__ . '/footer.php';
+?>
 </body>
 </html>

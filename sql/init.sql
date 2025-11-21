@@ -66,13 +66,13 @@ CREATE TABLE Pelicula_generos (
     FOREIGN KEY (genero_id) REFERENCES Genero(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE Usuario (
+CREATE TABLE IF NOT EXISTS Usuario (
     id CHAR(36) PRIMARY KEY NOT NULL,
     nombre_usuario VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE,
     contrasena VARCHAR(255) NOT NULL,
     es_admin BOOLEAN NOT NULL DEFAULT FALSE 
 ) ENGINE=InnoDB;
 
-INSERT INTO Usuario (id, nombre_usuario, email, contrasena, es_admin) VALUES
-('1', 'admin', '','123', TRUE);
+INSERT INTO Usuario (id, nombre_usuario, email, contrasena, es_admin) 
+VALUES ('1', 'admin', 'admin@cinemark.com', '123', TRUE);

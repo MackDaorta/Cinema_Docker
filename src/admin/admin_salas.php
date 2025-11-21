@@ -1,117 +1,23 @@
 <?php
 require_once '../security/admin_check.php';
-require_once __DIR__ . '/../config/conexionDB.php';
-
-session_start();
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-$csrf = $_SESSION['csrf_token'];
-
-function h($v){ return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8'); }
-function getVal($obj, $key){
-    if (is_object($obj) && isset($obj->$key)) return $obj->$key;
-    if (is_array($obj) && isset($obj[$key])) return $obj[$key];
-    return null;
-}
-
-// Cargar salas desde la BD
-$salas = [];
-$error = '';
-
-try {
-    $salas = $pdo->query("SELECT id, nombre, descripcion, imagen FROM Sala ORDER BY nombre ASC")->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    $error = 'Error al cargar las salas: ' . $e->getMessage();
-}
+require_once '../public/header.php';
 ?>
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <title>Gestión de Salas - Cinemark</title>
-  <link rel="stylesheet" href="/static/administrator/style.css">
-  <link rel="stylesheet" href="/static/administrator/admin.css">
-  <link rel="stylesheet" href="/static/administrator/admin_salas.css">
-</head>
-<body>
-<div class="centro">
-  <h2 class="titulo">Gestión de salas</h2>
-  
-  <div class="form-container">
-    <h3>Agregar Nueva Sala</h3>
-    <form id="productForm" method="POST" enctype="multipart/form-data" action="admin_salas_procesar.php">
-      <input type="hidden" name="csrf_token" value="<?php echo h($csrf); ?>">
-      
-      <div class="form-group">
-        <label for="nombre">Nombre de la sala:</label>
-        <input type="text" id="nombre" name="nombre" required />
-      </div>
-      
-      <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required></textarea>
-      </div>
-      
-      <div class="form-group">
-        <label for="imagen">Imagen:</label>
-        <input type="file" id="imagen" name="imagen" accept="image/*" required />
-      </div>
-
-      <button type="submit" class="btn-action">Agregar Sala</button>
-      
-      <?php if (!empty($error)): ?>
-        <p style="color: red; margin-top: 10px"><?php echo h($error); ?></p>
-      <?php endif; ?>
-    </form>
-  </div>
-  
-  <div class="salas-list">
-    <h2>Lista de Salas</h2>
-    <div id="salasContainer">
-      <?php if (!empty($salas) && is_array($salas)): ?>
-        <?php foreach ($salas as $sala): ?>
-          <?php
-            $img = $sala['imagen'] ?? '';
-            $imgUrl = '';
-            
-            if (is_object($img)) {
-                $imgUrl = getVal($img, 'url') ?? ($img->url ?? '');
-            } elseif (is_array($img)) {
-                $imgUrl = $img['url'] ?? '';
-            } else {
-                $imgUrl = $img ?? '';
-            }
-            
-            $nombre = $sala['nombre'] ?? '';
-            $descripcion = $sala['descripcion'] ?? '';
-            $id = $sala['id'] ?? '';
-          ?>
-          <div class="sala-item">
-            <div class="sala-content">
-              <?php if (!empty($imgUrl)): ?>
-                <img src="<?php echo h($imgUrl); ?>" alt="<?php echo h($nombre); ?>" class="sala-image" />
-              <?php endif; ?>
-              <div class="sala-info">
-                <h4><?php echo h($nombre); ?></h4>
-                <p><?php echo h($descripcion); ?></p>
-              </div>
-            </div>
-            <div class="actions">
-              <a href="admin_salas_editar.php?id=<?php echo h($id); ?>" class="btn-edit">Editar</a>
-              <form action="admin_salas_eliminar.php" method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta sala?');">
-                <input type="hidden" name="csrf_token" value="<?php echo h($csrf); ?>">
-                <input type="hidden" name="id" value="<?php echo h($id); ?>">
-                <button type="submit" class="btn-delete">Eliminar</button>
-              </form>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      <?php else: ?>
-        <p>No hay salas registradas todavía.</p>
-      <?php endif; ?>
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-6 text-purple-700">Gestión de Salas</h1>
+    <div class="bg-gray-100 p-6 rounded shadow mb-8">
+        <form id="form-sala" enctype="multipart/form-data">
+            <input type="hidden" name="id" id="sala_id">
+            <input type="hidden" name="imagen_actual" id="sala_imagen_actual">
+            <div class="mb-4"><label>Nombre:</label><input type="text" name="nombre" id="sala_nombre" class="w-full p-2 border" required></div>
+            <div class="mb-4"><label>Imagen:</label><input type="file" name="imagen" class="w-full p-2 border"></div>
+            <div class="mb-4"><label>Descripción:</label><textarea name="descripcion" id="sala_descripcion" class="w-full p-2 border"></textarea></div>
+            <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded">Guardar</button>
+            <button type="button" onclick="limpiarFormSala()" class="bg-gray-500 text-white px-4 py-2 rounded">Cancelar</button>
+        </form>
     </div>
-  </div>
+    <table class="min-w-full bg-white"><tbody id="tabla-salas-body"></tbody></table>
 </div>
+<script src="/js/app.js"></script>
+<script>document.addEventListener('DOMContentLoaded', initAdminSalas);</script>
 </body>
 </html>

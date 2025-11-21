@@ -21,8 +21,9 @@ $usuario = $_SESSION["user"] ?? null;
 </head>
 <body id="pagina-confiteria"> <!-- ID para que el JS sepa dónde está -->
 
-<?php require_once __DIR__ . '/header.php'; ?>
-
+<?php
+require_once __DIR__ . '/header.php'; 
+?>
 <main class="container mx-auto p-4">
     <h1 class="text-center text-4xl font-bold my-8">Nuestra Confitería</h1>
     

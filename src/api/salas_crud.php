@@ -11,12 +11,12 @@ try {
     // --- LISTAR O VER UNO (GET) ---
     if ($method === 'GET') {
         if (isset($_GET['id'])) {
-            $stmt = $pdo->prepare("SELECT * FROM Producto WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT * FROM Sala WHERE id = ?");
             $stmt->execute([$_GET['id']]);
-            echo json_encode(['success' => true, 'producto' => $stmt->fetch()]);
+            echo json_encode(['success' => true, 'sala' => $stmt->fetch()]);
         } else {
-            $stmt = $pdo->query("SELECT * FROM Producto ORDER BY categoria ASC, nombre ASC");
-            echo json_encode(['success' => true, 'productos' => $stmt->fetchAll()]);
+            $stmt = $pdo->query("SELECT * FROM Sala ORDER BY nombre ASC");
+            echo json_encode(['success' => true, 'salas' => $stmt->fetchAll()]);
         }
         exit;
     }
@@ -26,7 +26,7 @@ try {
         $input = json_decode(file_get_contents('php://input'), true);
         if (!isset($input['id'])) throw new Exception("ID requerido");
 
-        $stmt = $pdo->prepare("DELETE FROM Producto WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM Sala WHERE id = ?");
         $stmt->execute([$input['id']]);
         echo json_encode(['success' => true]);
         exit;
@@ -37,23 +37,13 @@ try {
         $id = $_POST['id'] ?? '';
         $nombre = $_POST['nombre'];
         $descripcion = $_POST['descripcion'] ?? '';
-        $precio = $_POST['precio'];
-        $categoria = $_POST['categoria'];
         
-        // Convertir checkbox "on" a 1 o 0
-        $disponible = (isset($_POST['disponible']) && $_POST['disponible'] === 'on') ? 1 : 0;
-        // Si el JS envía true/false o 1/0 directo, ajustar aquí si es necesario.
-        // Tu app.js suele enviar FormData, así que el checkbox checked llega como "on".
-        if(isset($_POST['disponible']) && ($_POST['disponible'] == '1' || $_POST['disponible'] == 'true')) {
-             $disponible = 1;
-        }
-
         $imagenNombre = $_POST['imagen_actual'] ?? '';
         
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
             $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
-            $nuevoNombre = uniqid('prod_') . '.' . $ext;
-            $destino = __DIR__ . '/../uploads/productos/' . $nuevoNombre;
+            $nuevoNombre = uniqid('sala_') . '.' . $ext;
+            $destino = __DIR__ . '/../uploads/salas/' . $nuevoNombre;
             
             if (!is_dir(dirname($destino))) mkdir(dirname($destino), 0777, true);
 
@@ -63,13 +53,11 @@ try {
         }
 
         if ($id) {
-            $sql = "UPDATE Producto SET nombre=?, descripcion=?, precio=?, imagen=?, categoria=?, disponible=? WHERE id=?";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$nombre, $descripcion, $precio, $imagenNombre, $categoria, $disponible, $id]);
+            $stmt = $pdo->prepare("UPDATE Sala SET nombre=?, descripcion=?, imagen=? WHERE id=?");
+            $stmt->execute([$nombre, $descripcion, $imagenNombre, $id]);
         } else {
-            $sql = "INSERT INTO Producto (id, nombre, descripcion, precio, imagen, categoria, disponible) VALUES (UUID(), ?, ?, ?, ?, ?, ?)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$nombre, $descripcion, $precio, $imagenNombre, $categoria, $disponible]);
+            $stmt = $pdo->prepare("INSERT INTO Sala (id, nombre, descripcion, imagen) VALUES (UUID(), ?, ?, ?)");
+            $stmt->execute([$nombre, $descripcion, $imagenNombre]);
         }
 
         echo json_encode(['success' => true]);
