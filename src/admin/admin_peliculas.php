@@ -5,12 +5,13 @@ require_once '../public/header.php';
 <link rel="stylesheet" href="css/admin_peliculas.css">
 <style>
     .centro { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .form-container { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+    .form-container { background: gray; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
     .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 5px;color:black }
     .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
     .btn-action { background: #e50914; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
     .pelicula-item { display: flex; justify-content: space-between; background: white; padding: 15px; border: 1px solid #eee; margin-bottom: 10px; }
+    .pelicula-item{color: gray}
 </style>
 
 <div class="centro">

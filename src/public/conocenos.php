@@ -1,11 +1,11 @@
 <?php
 session_start();
 $usuario = $_SESSION["user"] ?? null;
-$historia_img = 'img/conocenos/sala_roja.jpg';
+$historia_img = '/uploads/conocenos/vision.jpg';
 $historia_titulo = 'Nuestra Historia';
 $historia_texto = 'Desde nuestros inicios hemos buscado ofrecer experiencias inolvidables en cada función. Inspirados en la pasión por el séptimo arte, hemos crecido como un espacio donde el entretenimiento y la comodidad se unen para crear recuerdos únicos con cada película proyectada.';
 
-$trabajo_img = 'img/conocenos/equipo.jpg';
+$trabajo_img = '/uploads/conocenos/empleados.jpg';
 $trabajo_titulo = 'Trabaja con Nosotros';
 $trabajo_texto = '¿Te apasiona el cine y el trabajo en equipo? Únete a nuestra familia y sé parte de una experiencia que transforma cada función en un momento especial para miles de personas.';
 $trabajo_boton_texto = 'Enviar Solicitud';

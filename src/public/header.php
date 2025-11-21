@@ -14,7 +14,7 @@
             if (isset($usuario['es_admin']) && $usuario['es_admin']){
                 echo '<a href="/admin/admin_panel.php">Panel Admin</a>';
             }
-            echo '<a href="logout.php">Cerrar Sesión</a>';
+            echo '<a href="/logout.php">Cerrar Sesión</a>';
         } else {
             echo '<a href="/public/login.php">Iniciar Sesión</a>';
         }

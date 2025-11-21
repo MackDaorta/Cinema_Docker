@@ -6,7 +6,7 @@ require_once '../public/header.php';
 
 <div class="container mx-auto p-4" style="max-width: 1000px;">
     <h1 class="text-3xl font-bold mb-6" style="color: #dc2626;">Gestión de Productos</h1>
-    <div style="background:#fef2f2; padding:20px; border-radius:8px; margin-bottom:20px;">
+    <div style="background:grey; padding:20px; border-radius:8px; margin-bottom:20px;">
         <form id="form-producto" enctype="multipart/form-data">
             <input type="hidden" name="id" id="prod_id">
             <input type="hidden" name="imagen_actual" id="prod_imagen_actual">
