@@ -9,8 +9,9 @@ $usuario= $_SESSION["user"]?? null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cinemark</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="/js/app.js"></script>
 </head>
-<body>
+<body id="pagina-home">
 <?php
     require_once __DIR__ . '/public/header.php';
 ?>
@@ -21,7 +22,7 @@ $usuario= $_SESSION["user"]?? null;
 <br>
 <br>
 
-<div class = "promociones-container">
+<div class = "promociones">
     <h2>Promociones</h2>
     <div id="promociones-fotos" class="fotos">
         </div>
@@ -29,3 +30,5 @@ $usuario= $_SESSION["user"]?? null;
 <?php
     require_once __DIR__ . '/public/footer.php';
 ?>
+
+</body>

@@ -13,32 +13,6 @@ $usuario = $_SESSION["user"] ?? null;
     <link rel="stylesheet" href="/css/style.css">
     <!-- Estilos Específicos de Ubicanos -->
     <link rel="stylesheet" href="/css/ubicanos.css">
-    
-    <!-- Estilos inline de respaldo para el mapa por si falta el CSS -->
-    <style>
-        .map-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .map-container iframe {
-            width: 100%;
-            max-width: 1000px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .address-info {
-            text-align: center;
-            background-color: #f4f4f4;
-            padding: 30px;
-            border-radius: 8px;
-            max-width: 600px;
-            margin: 0 auto 40px auto;
-            color: #333;
-        }
-        .address-info h2 { color: #d32f2f; margin-bottom: 15px; }
-        .titulo-principal { text-align: center; color: white; margin-top: 30px; }
-    </style>
 </head>
 <body>
 
@@ -58,7 +32,13 @@ $usuario = $_SESSION["user"] ?? null;
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-
+<div class="address-info">
+        <h2>Nuestra Ubicación</h2>
+        <p>Cinemark Megaplaza</p>
+        <p>Av. Alfredo Mendiola 3698, Independencia 15311</p>
+        <p>Teléfono: 992 919 132</p>
+        <p>Horario: Lunes a Domingo, 10:00 AM - 11:00 PM</p>
+      </div>
     </main>
 
 <?php require_once __DIR__ . '/footer.php'; ?>

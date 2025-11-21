@@ -24,5 +24,5 @@ catch (\PDOException $e) {
 }
 
 // retornar JSON
-echo json_encode($data);
+echo json_encode(['success' => true] + $data);
 ?>

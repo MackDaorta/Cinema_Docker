@@ -12,18 +12,16 @@ $usuario = $_SESSION["user"] ?? null;
     <!-- Estilos Globales -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- Estilos Específicos de Sala (Asegúrate de tener este archivo) -->
-    <link rel="stylesheet" href="/css/Sala.css">
+    <link rel="stylesheet" href="/css/salas.css">
 </head>
 <body id="pagina-salas"> <!-- ID clave para el JS -->
 
 <?php require_once __DIR__ . '/header.php'; ?>
 
-<div class="main-content container mx-auto p-4 min-h-screen">
-    <h2 class="section-title text-3xl font-bold text-center my-8 text-blue-800 border-b pb-4">Nuestras Salas</h2>
-    
-    <!-- Contenedor donde JS inyectará las tarjetas -->
-    <div id="salas-contenido" class="salas-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <p class="text-center col-span-full text-gray-500 text-xl">Cargando información de las salas...</p>
+<div class="main-content">
+    <h2 class="section-title">Nuestras Salas</h2>
+    <div id="salas-contenido" class="salas-grid">
+        <p>Cargando información de las salas...</p>
     </div>
 </div>
 

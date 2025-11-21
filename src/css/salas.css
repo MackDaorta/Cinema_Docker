@@ -1,14 +1,11 @@
-/* GLOBAL & BASE (Ajuste menor: Fuente más moderna si está disponible) */
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Work Sans', 'Arial', sans-serif; /* Priorizando una fuente más moderna */
+    font-family: 'Arial', sans-serif; 
     background-color: #12100D;
-    color: white;
 }
 
-/* HEADER (Se mantiene casi igual) */
 header {
     position: sticky;
     top: 0;
@@ -22,7 +19,8 @@ header {
     background-color: #12100D;
     width: 100%;
     box-sizing: border-box;
-    border-color: #1e1c19; /* Borde más sutil */
+    border-radius: 10px 10px 10px 10px;
+    border-color: gray;
     border-style: solid;
     border-width: 0px 0px 1px 0px;
 }
@@ -49,7 +47,6 @@ nav a {
 
 nav a.activo {
     text-decoration: underline;
-    text-decoration-color: #850F0F; /* Subrayado rojo */
     font-weight: bold;
 }
 
@@ -71,7 +68,6 @@ nav a:hover {
     transition: color 0.3s ease;
 }
 
-/* CONTENIDO PRINCIPAL Y TÍTULOS */
 .main-content {
     max-width: 1340px;
     margin: 20px auto;
@@ -83,19 +79,17 @@ h2.section-title {
     color: white;
     font-size: 32px;
     margin-top: 40px;
-    margin-bottom: 25px;
-    padding-bottom: 8px;
-    border-bottom: 3px solid #850F0F; /* Línea separadora más gruesa */
-    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #850F0F;
 }
 
-/* SALAS GRID */
+
 .salas-grid {
     display: grid;
-    /* Ajuste para que las tarjetas se vean bien en pantallas grandes (máximo 3 por fila) */
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
-    gap: 25px;
-    margin-bottom: 50px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
+    gap: 20px;
+    margin-bottom: 40px;
 }
 
 .sala-card {
@@ -116,55 +110,43 @@ h2.section-title {
 
 .sala-header {
     background-color: #850F0F;
-    padding: 15px 20px; /* Más padding */
+    padding: 10px 20px;
     text-align: center;
 }
 
 .sala-header h3 {
     margin: 0;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
 }
 
 .sala-body {
     display: flex;
     padding: 20px;
-    align-items: flex-start; /* Alineación arriba */
+    align-items: center;
     gap: 20px;
 }
 
-.sala-image-container {
-    flex-shrink: 0; /* Evita que la imagen se encoja */
+.sala-image-placeholder {
     width: 150px;
     height: 100px;
+    background-color: #333;
     border-radius: 8px;
-    overflow: hidden;
-}
-
-.sala-image-placeholder {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajusta la imagen sin distorsionarla */
-    display: block;
-}
-
-.sala-info {
-    flex-grow: 1;
+    object-fit: cover;
+    border: 2px solid #555;   
 }
 
 .sala-info p {
     margin: 5px 0;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.4;
 }
 
 .sala-info strong {
     color: #ccc;
-    font-weight: 600;
-    display: block; /* Fuerza el título a su propia línea */
 }
 
-/* CARTELERA DESTACADA */
+
 .cartelera-list {
     display: flex;
     flex-direction: column;
@@ -175,13 +157,12 @@ h2.section-title {
 .movie-item {
     background-color: #1e1c19;
     color: white;
-    padding: 15px 25px;
+    padding: 15px 20px;
     border-radius: 8px;
     border-left: 5px solid #850F0F;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .movie-item h4 {
@@ -206,33 +187,34 @@ h2.section-title {
     background: #b71c1c;
 }
 
-/* FOOTER Y SÍGUENOS (Ajustado para mejor visualización) */
+
 .siguenos {
     text-align: end;
-    padding: 10px 30px;
+    padding-right: 20px;
     background-color: #1e1c19;
+    border-radius: 10px 10px 0px 0px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
     font-family: Arial, sans-serif;
     margin-top: 40px;
-    border-top: 1px solid #333; /* Borde más claro */
 }
 
 .siguenos h5 {
     color: #fff;
+    padding-top: 10px;
     margin-bottom: 5px;
 }
 
 .siguenos .iconos a {
     text-decoration: none;
     display: inline-block;
-    color: #850F0F; /* Color del icono rojo */
+    color: whitesmoke;
+    outline: none;
+    border: none;
     font-size: 20px;
-    margin-left: 15px;
+    margin-left: 10px;
     padding-bottom: 10px;
-    transition: color 0.3s;
-}
-
-.siguenos .iconos a:hover {
-    color: #fff;
 }
 
 footer {
@@ -243,7 +225,6 @@ footer {
     background-color: #1e1c19;
     width: 100%;
     box-sizing: border-box;
-    border-top: 1px solid #333;
 }
 
 footer p {
@@ -256,7 +237,6 @@ footer h3 {
     font-size: 14px;
 }
 
-/* MEDIA QUERIES (Se mantienen) */
 @media (max-width: 900px) {
     .salas-grid {
         grid-template-columns: 1fr;
@@ -284,9 +264,9 @@ footer h3 {
         text-align: center;
     }
     .sala-info {
-        text-align: left; /* Mantener la info alineada para mejor lectura */
+        text-align: center;
     }
-    .sala-image-container {
+    .sala-image-placeholder {
         width: 100%;
         height: 150px;
     }

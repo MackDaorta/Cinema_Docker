@@ -139,39 +139,66 @@ function cargarConfiteriaPublica() {
             container.innerHTML = '<p class="text-center text-red-500">Error al cargar los productos.</p>';
         });
 }
-
 function cargarHomePublico() {
     const slidersContainer = document.getElementById('sliders-container');
-    const promocionesFotos = document.getElementById('promociones-fotos'); // Asegúrate de tener este ID en tu HTML
+    const promocionesFotos = document.getElementById('promociones-fotos');
 
-    fetch('/api/anuncios_crud.php') // Usamos la API que ya devuelve todos los anuncios
+    console.log("Iniciando carga del Home...");
+
+    fetch('/api/obtener_anuncios.php') 
         .then(res => res.json())
         .then(data => {
-            if (!data.success || !data.anuncios) return;
+         
+            console.log("Datos recibidos:", data);
 
-            // Filtrar por tipo
-            const sliders = data.anuncios.filter(a => a.tipo === 'SLIDER');
-            const promociones = data.anuncios.filter(a => a.tipo === 'PROMOCION');
+            if (!data.success) return;
 
-            // Render Sliders
-            if (sliders.length > 0) {
+            // 1. SLIDERS
+        
+            if (data.sliders && data.sliders.length > 0) {
                 let htmlS = '';
-                sliders.forEach(s => {
-                    const img = s.imagen ? `/uploads/anuncios/${s.imagen}` : '';
-                    htmlS += `<div class="slide"><img src="${img}" alt="${s.nombre}" style="width:100%; max-height:400px; object-fit:cover;"></div>`;
+                data.sliders.forEach(s => {
+                    const img = s.imagen ? `/uploads/anuncios/${s.imagen}` : '/uploads/default.png';
+                    // Lógica de enlace
+                    const content = s.link 
+                        ? `<a href="${s.link}" target="_blank"><img src="${img}" alt="${s.nombre}"></a>`
+                        : `<img src="${img}" alt="${s.nombre}">`;
+
+                    htmlS += `
+                        
+                            ${content}
+                            <div class="info">
+                                <h3>${s.nombre}</h3>
+                            </div>`;
                 });
                 slidersContainer.innerHTML = htmlS;
+            } else {
+                slidersContainer.innerHTML = '<p style="text-align:center; padding:20px;">No hay sliders.</p>';
             }
 
-            // Render Promociones
-            if (promocionesFotos && promociones.length > 0) {
-                let htmlP = '';
-                promociones.forEach(p => {
-                    const img = p.imagen ? `/uploads/anuncios/${p.imagen}` : '';
-                    htmlP += `<div class="promo"><img src="${img}" alt="${p.nombre}" style="width:100%;"></div>`;
-                });
-                promocionesFotos.innerHTML = htmlP;
+            // 2. PROMOCIONES
+            
+            if (promocionesFotos) {
+                if (data.promociones && data.promociones.length > 0) {
+                    let htmlP = '';
+                    data.promociones.forEach(p => {
+                        const img = p.imagen ? `/uploads/anuncios/${p.imagen}` : '/uploads/default.png';
+                        
+                        if (p.link) {
+                            htmlP += `<a href="${p.link}" target="_blank"><img src="${img}" alt="${p.nombre}"></a>`;
+                        } else {
+                            htmlP += `<img src="${img}" alt="${p.nombre}">`;
+                        }
+                    });
+                    promocionesFotos.innerHTML = htmlP;
+                } else {
+                    promocionesFotos.innerHTML = '<p style="text-align:center; width:100%;">No hay promociones.</p>';
+                }
             }
+        })
+        .catch(err => {
+            console.error("Error cargando home:", err);
+            slidersContainer.innerHTML = '<p style="color:red; text-align:center;">Error de conexión</p>';
         });
 }
 
@@ -189,8 +216,8 @@ function cargarSalasPublicas() {
                 <div class="sala-card">
                     <div class="sala-header"><h3>${sala.nombre}</h3></div>
                     <div class="sala-body">
-                        <img src="${img}" alt="${sala.nombre}" style="background-color: #0d47a1;">
-                        <div class="sala-info"><p>${sala.descripcion || ''}</p></div>
+                        <img src="${img}" alt="${sala.nombre}" class="sala-image-placeholder">
+                        <div class="sala-info"><p><strong>Descripcion:</strong>${sala.descripcion || ''}</p></div>
                     </div>
                 </div>`;
             });
