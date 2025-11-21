@@ -7,11 +7,11 @@ try {
     
 
     // SQL para ver todos los Sliders
-    $stmt_sliders = $pdo->query("SELECT nombre, imagen, link FROM Anuncio WHERE tipo = 'SLIDER' AND vigencia >= CURDATE()");
+    $stmt_sliders = $pdo->query("SELECT nombre, imagen, link FROM Anuncio WHERE tipo = 'SLIDER'");
     $data['sliders'] = $stmt_sliders->fetchAll();
 
     // SQL para ver todas las promociones
-    $stmt_promos = $pdo->query("SELECT nombre, imagen, link FROM Anuncio WHERE tipo = 'PROMOCION' AND vigencia >= CURDATE()");
+    $stmt_promos = $pdo->query("SELECT nombre, imagen, link FROM Anuncio WHERE tipo = 'PROMOCION' ");
     $data['promociones'] = $stmt_promos->fetchAll();
 
 } 

@@ -22,17 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('pagina-salas')) {
         cargarSalasPublicas();
     }
-
-    // =====================================================
-    // 2. LÓGICA ADMIN (Backend)
-    // =====================================================
-    
-    // Inicializadores de módulos admin (verifican si el formulario existe antes de correr)
-    initAdminPeliculas();
-    initAdminProductos();
-    initAdminAnuncios();
-    initAdminSalas();
-    initAdminGeneros();
 });
 
 /* -------------------------------------------------------------------------- */
@@ -97,32 +86,57 @@ function cargarCarteleraPublica() {
 }
 
 function cargarConfiteriaPublica() {
-    fetch('/api/productos_crud.php') // Reutilizamos API de productos o creamos una pública específica
+    const container = document.getElementById('confiteria-contenido');
+    if(!container) return;
+
+    console.log("Cargando confitería...");
+    
+    // Usamos la API que agrupa por categorías
+    fetch('/api/obtener_productos.php') 
         .then(res => res.json())
         .then(data => {
-            const container = document.getElementById('confiteria-contenido');
-            // Como la API CRUD devuelve lista plana, la agrupamos aquí si es necesario
-            // O usamos la API 'obtener_productos.php' si la tienes separada.
-            // Asumiendo estructura plana de productos_crud.php:
             
-            if (!data.success || !data.productos || data.productos.length === 0) {
-                container.innerHTML = '<p class="text-center">No hay productos.</p>';
+            if (!data.success || !data.productos || Object.keys(data.productos).length === 0) {
+                container.innerHTML = '<p class="text-center">No hay productos disponibles por el momento.</p>';
                 return;
             }
 
-            let html = '<div class="productos-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">';
-            data.productos.forEach(prod => {
-                const img = prod.imagen ? `/uploads/productos/${prod.imagen}` : '/uploads/default.png';
-                html += `
-                <div class="producto-card" style="border:1px solid #ddd; padding:15px; text-align:center;">
-                    <img src="${img}" style="width:100%; height:200px; object-fit:contain;">
-                    <h3>${prod.nombre}</h3>
-                    <p>${prod.descripcion || ''}</p>
-                    <p style="font-weight:bold; color:green;">S/. ${prod.precio}</p>
-                </div>`;
-            });
-            html += '</div>';
-            container.innerHTML = html;
+            let htmlCompleto = '';
+
+            // Recorremos el objeto agrupado: { "COMBO": [...], "SNACK": [...] }
+            for (const [categoria, listaProductos] of Object.entries(data.productos)) {
+                
+                // 1. Crear Título de Categoría
+                htmlCompleto += `
+                    <section class="categoria">
+                        <h3>
+                            ${categoria}
+                        </h3>
+                        <div class="productos">
+                `;
+
+                // 2. Recorrer productos de ESTA categoría
+                listaProductos.forEach(prod => {
+                    const img = prod.imagen ? `/uploads/productos/${prod.imagen}` : '/uploads/default.png';
+                    
+                    htmlCompleto += `
+                        <div class="item">
+                                <img src="${img}" alt="${prod.nombre}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                <p>${prod.nombre}</p>
+                                <span>S/. ${prod.precio}</span>
+
+                        
+                    `;
+                });
+
+                htmlCompleto += `</div></section>`;
+            }
+
+            container.innerHTML = htmlCompleto;
+        })
+        .catch(err => {
+            console.error("Error cargando confitería:", err);
+            container.innerHTML = '<p class="text-center text-red-500">Error al cargar los productos.</p>';
         });
 }
 

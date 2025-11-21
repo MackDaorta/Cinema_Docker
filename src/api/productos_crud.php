@@ -8,6 +8,7 @@ header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 
 try {
+    // --- LISTAR (GET) ---
     if ($method === 'GET') {
         if (isset($_GET['id'])) {
             $stmt = $pdo->prepare("SELECT * FROM Producto WHERE id = ?");
@@ -20,6 +21,7 @@ try {
         exit;
     }
 
+    // --- ELIMINAR (DELETE) ---
     if ($method === 'DELETE') {
         $input = json_decode(file_get_contents('php://input'), true);
         $id = $input['id'] ?? null;
@@ -29,6 +31,7 @@ try {
         exit;
     }
 
+    // --- CREAR O EDITAR (POST) ---
     if ($method === 'POST') {
         $id = $_POST['id'] ?? '';
         $nombre = $_POST['nombre'];
@@ -37,23 +40,37 @@ try {
         $categoria = $_POST['categoria'];
         
         // Lógica para el checkbox disponible
-        // Si el checkbox está marcado, $_POST['disponible'] existe. Si no, no.
         $disponible = isset($_POST['disponible']) ? 1 : 0;
 
+        // 1. Recuperar imagen actual (si existe)
         $imagen = $_POST['imagen_actual'] ?? '';
+
+        // 2. Procesar NUEVA imagen si se subió una
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
             $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
             $nombreArchivo = uniqid('prod_') . '.' . $ext;
-            // Asegura la ruta correcta
-            move_uploaded_file($_FILES['imagen']['tmp_name'], __DIR__ . '/../uploads/productos/' . $nombreArchivo);
-            $imagen = $nombreArchivo;
+            
+            // Definir directorio destino
+            $directorioDestino = __DIR__ . '/../uploads/productos/';
+
+            // --- CORRECCIÓN: Crear carpeta si no existe ---
+            if (!is_dir($directorioDestino)) {
+                mkdir($directorioDestino, 0777, true);
+            }
+
+            // Mover archivo
+            if (move_uploaded_file($_FILES['imagen']['tmp_name'], $directorioDestino . $nombreArchivo)) {
+                $imagen = $nombreArchivo; // Actualizamos la variable para la BD
+            }
         }
 
         if ($id) {
+            // UPDATE
             $sql = "UPDATE Producto SET nombre=?, descripcion=?, precio=?, imagen=?, categoria=?, disponible=? WHERE id=?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$nombre, $descripcion, $precio, $imagen, $categoria, $disponible, $id]);
         } else {
+            // INSERT
             $sql = "INSERT INTO Producto (id, nombre, descripcion, precio, imagen, categoria, disponible) VALUES (UUID(), ?, ?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$nombre, $descripcion, $precio, $imagen, $categoria, $disponible]);
@@ -67,3 +84,13 @@ try {
     echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }
 ?>
+```
+
+### ¿Qué corregí?
+Agregué este bloque dentro de la lógica de subida de imagen:
+
+```php
+$directorioDestino = __DIR__ . '/../uploads/productos/';
+if (!is_dir($directorioDestino)) {
+    mkdir($directorioDestino, 0777, true);
+}
