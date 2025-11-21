@@ -1,10 +1,10 @@
 
 CREATE TABLE Sala (
     id CHAR(36) PRIMARY KEY NOT NULL,
-    nombre VARCHAR(10) UNIQUE NOT NULL, -- unique=True
+    nombre VARCHAR(10) UNIQUE NOT NULL, -- CHAR: texto fijo
     descripcion TEXT,
-    imagen VARCHAR(100) NOT NULL
-) ENGINE=InnoDB;
+    imagen VARCHAR(100) NOT NULL -- VARCHAR: texto variable
+) ENGINE=InnoDB; -- ENGINE=InnoDB: motor transaccional con FK
 
 
 CREATE TABLE Genero (
@@ -21,7 +21,7 @@ CREATE TABLE Anuncio (
     tipo VARCHAR(50) NOT NULL,
     link VARCHAR(255),
     vigencia DATE,
-    CHECK (tipo IN ('SLIDER', 'PROMOCION'))
+    CHECK (tipo IN ('SLIDER', 'PROMOCION')) -- CHECK: limitar valores permitidos
 ) ENGINE=InnoDB;
 
 CREATE TABLE Producto (
@@ -31,7 +31,7 @@ CREATE TABLE Producto (
     precio DECIMAL(5, 2) NOT NULL,
     imagen VARCHAR(100) NOT NULL,
     categoria VARCHAR(50) NOT NULL DEFAULT 'OTRO',
-    disponible BOOLEAN NOT NULL DEFAULT TRUE, -- BooleanField
+    disponible BOOLEAN NOT NULL DEFAULT TRUE, -- BOOLEAN: verdadero/falso
     CHECK (categoria IN ('COMBO', 'POPCORN', 'BEBIDA', 'SNACK', 'COLECCIONABLES'))
 ) ENGINE=InnoDB;
 

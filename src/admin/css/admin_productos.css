@@ -1,126 +1,252 @@
-.centro {
+body {
+    background: #19191A;
+    margin: 0;
+    font-family: 'Work Sans', Arial, sans-serif;
+    color: #FFF;
+    min-height: 100vh;
+}
+
+header {
+    background: #19191A;
+    border-bottom: 2px solid #232326;
+    padding: 18px 32px 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo-cinemark {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+nav {
+    display: flex;
+    gap: 18px;
+    margin-left: auto;
+    align-items: center;
+    justify-content: flex-end; /* Menú alineado a la derecha */
+    width: 100%;
+}
+nav a {
+    color: #FFF;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.22s, background 0.2s;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+nav a:hover,
+nav a.activo {
+    background: #C60017;
+    color: #FFF;
+}
+
+/* Contenedor principal centrado y ancho */
+.container {
+    max-width: 850px;
+    margin: 48px auto 40px auto;
+    background: transparent;
+    padding: 0 16px;
+}
+
+/* Título alineado centrado y bonito */
+h1 {
+    color: #C60017;
+    font-size: 2.3rem;
+    font-weight: bold;
+    margin-bottom: 38px;
+    text-align: center;
+    letter-spacing: 1.8px;
+}
+
+/* Formulario elegante y bien centrado */
+.form-container {
+    background: #242326;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+    padding: 38px 32px 28px 32px;
+    border: 2px solid #C60017;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    width: 90%;
-    max-width: 800px;
-    margin: 40px auto;
-    background-color: #19191A; /* Fondo Cinema oscuro */
-    border: 1px solid #232326;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-}
-
-.titulo {
-    margin-top: 0;
-    font-size: 1.6rem;
-    color: #C60017; /* Rojo Cinemark */
-    font-weight: bold;
-}
-
-.form-container {
     width: 100%;
+}
+
+/* Grid responsivo para inputs */
+.form-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 12px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 
-label {
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #FFF;
+.form-group label {
+    font-weight: 600;
+    color: #F6C700;
+    margin-bottom: 6px;
+    font-size: 1.11rem;
 }
 
-input[type="text"],
-textarea {
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
-    background-color: #232326; /* Oscuro Cinemark */
-    color: #FFF;
-    font-size: 1rem;
-}
-
-textarea {
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.form-group input[type="file"],
+.form-group textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border-radius: 8px;
+    border: 1.7px solid #C60017;
+    margin-bottom: 3px;
+    background: #e8eff7;
+    color: #232326;
+    font-size: 1.13rem;
     resize: none;
+    box-sizing: border-box;
+    transition: border 0.22s, background 0.22s;
 }
 
-input:focus,
-textarea:focus {
-    outline: 2px solid #C60017; /* Rojo Cinemark */
+.form-group input[type="file"] {
+    background: #19191A;
+    color: #FFF;
+    border: none;
+    font-size: 1rem;
+    padding: 7px 0;
 }
 
-.btn-action {
-    background-color: #C60017; /* Rojo Cinemark */
+.form-group textarea:focus,
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group select:focus {
+    border: 2px solid #F6C700;
+    outline: none;
+    background: #fffbe5;
+}
+
+/* Checkbox ‘disponible’ */
+.form-checkbox {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+}
+.form-checkbox input[type="checkbox"] {
+    accent-color: #C60017;
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+}
+.form-checkbox label {
+    font-weight: 600;
+    color: #F6C700;
+    font-size: 1.09rem;
+}
+
+/* Botones del formulario bonitos */
+.form-btns {
+    display: flex;
+    gap: 18px;
+    margin-top: 22px;
+    width: 100%;
+}
+
+.btn-principal {
+    background: #C60017;
     color: #FFF;
     border: none;
     border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 1rem;
+    padding: 14px 28px;
+    font-size: 1.15rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
+    transition: background 0.18s, color 0.18s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    flex: 1;
+    letter-spacing: 0.7px;
 }
-
-.btn-action:hover {
-    background-color: #F6C700; /* Amarillo Cinemark */
+.btn-principal:hover {
+    background: #F6C700;
     color: #C60017;
-    transform: scale(1.05);
 }
-
-.products-list {
-    margin-top: 30px;
-    width: 100%;
-    background-color: #232326; /* fondo oscuro Cinemark */
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #444;
-}
-
-.products-list h2 {
-    margin-top: 0;
-    color: #C60017;
-    text-align: center;
-}
-
-#productsContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.product-card {
-    background-color: #282828; /* variante oscura Cinemark */
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-.product-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
+.btn-secondary {
+    background: #232326;
+    color: #FFF;
+    border: 2px solid #C60017;
     border-radius: 8px;
-}
-
-.product-card h3 {
-    margin: 10px 0 5px 0;
-    color: #C60017;
-}
-
-.product-card p {
-    font-size: 0.9rem;
-    color: #F6C700; /* amarillo Cinemark */
-}
-
-.product-card .price {
-    color: #F6C700; /* amarillo Cinemark */
+    padding: 14px 28px;
+    font-size: 1.15rem;
     font-weight: bold;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, border 0.16s;
+    flex: 1;
+    letter-spacing: 0.7px;
+}
+.btn-secondary:hover {
+    background: #F6C700;
+    color: #232326;
+    border-color: #F6C700;
+}
+
+/* Tabla de productos */
+table {
+    width: 100%;
+    border-radius: 9px;
+    background: #232326;
+    box-shadow: 0 2px 18px rgba(0,0,0,0.10);
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 28px;
+    font-size: 1.11rem;
+    color: #FFF;
+    overflow: hidden;
+}
+table thead th {
+    background: #C60017;
+    color: #FFF;
+    font-weight: bold;
+    padding: 14px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+table tr {
+    border-bottom: 1px solid #333;
+}
+table td {
+    padding: 14px 17px 12px 17px;
+    color: #FFF;
+    background: #242326;
+    vertical-align: middle;
+}
+table tr:nth-child(even) td {
+    background: #202024;
+}
+
+/* Responsive especial */
+@media (max-width: 950px) {
+    .container {
+        max-width: 99vw;
+        padding: 0 2vw;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .form-container {
+        padding: 18px 6px 13px 6px;
+    }
+    table, tbody, tr, td, th {
+        font-size: 0.98rem;
+        padding: 9px;
+    }
+    h1 {
+        font-size: 1.4rem;
+    }
 }

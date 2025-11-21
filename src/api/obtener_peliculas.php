@@ -1,72 +1,74 @@
 <?php
-require_once('../config/conexionDB.php');
+// 1. Iniciar buffer para atrapar errores invisibles o espacios
+ob_start();
 
-$data = []; // Lista de todos las peliculas
+require_once '../config/conexionDB.php';
+
+// 2. Limpiar cualquier texto previo (warnings, espacios)
+ob_end_clean();
+header('Content-Type: application/json');
+
+$data = [];
 
 try {
-    //Consulta todas las peliculas por fecha de estreno
-
+    // --- PASO A: Obtener Películas Vigentes ---
+    // Filtramos por fecha (que no sean viejas, opcional según tu lógica) o traemos todas
     $sql_peliculas = "SELECT id, nombre, sinopsis, imagen, restriccion, duracion_minutos, fecha_estreno 
                       FROM Pelicula 
-                      WHERE fecha_estreno <= CURDATE() 
-                      ORDER BY fecha_estreno DESC";
-    $stmt_peliculas = $pdo->query($sql_peliculas);
-
-    $peliculas = $stmt_peliculas->fetchAll();
+                      ORDER BY fecha_estreno DESC"; 
+    $stmt = $pdo->query($sql_peliculas);
+    $peliculas = $stmt->fetchAll(); // Retorna objetos (PDO::FETCH_OBJ)
     
-    // Condicional si no encuentra peliculas
     if (empty($peliculas)) {
-        echo json_encode(['peliculas' => []]);
+        // Respondemos vacío pero con éxito
+        echo json_encode(['success' => true, 'peliculas' => []]);
         exit;
     }
 
-   
+    // --- PASO B: Obtener Datos Relacionados (Salas y Géneros) ---
     
-    // SQL para obtener todos los generos asignados a una pelicula
+    // Géneros
     $sql_generos = "SELECT pg.pelicula_id, g.nombre AS genero_nombre
                     FROM Pelicula_generos pg
                     JOIN Genero g ON pg.genero_id = g.id";
-    $stmt_generos = $pdo->query($sql_generos);
-    $generos_relacionados = $stmt_generos->fetchAll();
+    $generos_relacionados = $pdo->query($sql_generos)->fetchAll();
 
-    // SQL para obtener todas las salas de una pelicula
+    // Salas
     $sql_salas = "SELECT ps.pelicula_id, s.nombre AS sala_nombre
                   FROM Pelicula_salas ps
                   JOIN Sala s ON ps.sala_id = s.id";
-    $stmt_salas = $pdo->query($sql_salas);
-    $salas_relacionadas = $stmt_salas->fetchAll();
+    $salas_relacionadas = $pdo->query($sql_salas)->fetchAll();
 
-    //Unioon de M2M
-    foreach ($peliculas as &$pelicula) {
-        $pelicula['generos'] = [];
-        $pelicula['salas'] = [];
-
-        // Agregar géneros a la película actual
-        foreach ($generos_relacionados as $relacion_genero) {
-            if ($relacion_genero['pelicula_id'] === $pelicula['id']) {
-                $pelicula['generos'][] = $relacion_genero['genero_nombre'];
-            }
-        }
-
-        // Agregar salas a la película actual
-        foreach ($salas_relacionadas as $relacion_sala) {
-            if ($relacion_sala['pelicula_id'] === $pelicula['id']) {
-                $pelicula['salas'][] = $relacion_sala['sala_nombre'];
-            }
-        }
-    } 
-
-    $data['peliculas'] = $peliculas;
-
-} 
-//Si algo falla se mostrara esto
-catch (\PDOException $e) {
+    // --- PASO C: Unir Datos ---
     
-    http_response_code(500);
-    echo json_encode(['error' => 'Error en la cosulta : ' . $e->getMessage()]);
-    exit;
-}
+    foreach ($peliculas as $peli) {
+        // CORRECCIÓN: Usamos -> para asignar propiedades al objeto
+        $peli->generos = [];
+        $peli->salas = [];
 
-// Devuelve los datos en formato JSON
-echo json_encode($data);
+        // Unir Géneros
+        foreach ($generos_relacionados as $rel_g) {
+            // CORRECCIÓN: Usamos -> para acceder a propiedades
+            if ($rel_g->pelicula_id === $peli->id) {
+                $peli->generos[] = $rel_g->genero_nombre;
+            }
+        }
+
+        // Unir Salas
+        foreach ($salas_relacionadas as $rel_s) {
+            // CORRECCIÓN: Usamos -> para acceder a propiedades
+            if ($rel_s->pelicula_id === $peli->id) {
+                $peli->salas[] = $rel_s->sala_nombre;
+            }
+        }
+    }
+
+    // --- PASO D: Respuesta Final con 'success' ---
+    echo json_encode(['success' => true, 'peliculas' => $peliculas]);
+
+} catch (Exception $e) {
+    // Enviar error JSON válido si algo falla
+    if(!headers_sent()) http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Error en servidor: ' . $e->getMessage()]);
+}
 ?>

@@ -2,6 +2,8 @@
 require_once '../security/admin_check.php';
 require_once '../public/header.php';
 ?>
+<link rel="stylesheet" href="css/admin_productos.css">
+
 <div class="container mx-auto p-4" style="max-width: 1000px;">
     <h1 class="text-3xl font-bold mb-6" style="color: #dc2626;">Gestión de Productos</h1>
     <div style="background:#fef2f2; padding:20px; border-radius:8px; margin-bottom:20px;">

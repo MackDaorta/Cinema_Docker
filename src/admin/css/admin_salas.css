@@ -1,126 +1,202 @@
-.centro {
+body {
+    background: #19191A;
+    margin: 0;
+    font-family: 'Work Sans', Arial, sans-serif;
+    color: #FFF;
+    min-height: 100vh;
+}
+
+header {
+    background: #19191A;
+    border-bottom: 2px solid #232326;
+    padding: 18px 32px 0 32px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    width: 90%;
-    max-width: 800px;
-    margin: 40px auto;
-    background-color: #19191A; /* Cinemark fondo oscuro */
-    border: 1px solid #232326;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    justify-content: space-between;
+}
+.logo-cinemark {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+nav {
+    display: flex;
+    gap: 18px;
+    margin-left: auto;
+    align-items: center;
+}
+nav a {
+    color: #FFF;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.22s, background 0.2s;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+nav a:hover, nav a.activo {
+    background: #C60017;
+    color: #FFF;
 }
 
-.titulo {
-    margin-top: 0;
-    font-size: 1.6rem;
-    color: #C60017; /* Rojo Cinemark */
+/* Contenedor principal de salas */
+.container {
+    max-width: 680px;
+    margin: 48px auto 40px auto;
+    background: transparent;
+    padding: 0 12px;
+}
+
+/* Título principal */
+h1 {
+    color: #C60017;
+    font-size: 2rem;
     font-weight: bold;
+    margin-bottom: 32px;
+    text-align: left;
+    letter-spacing: 1px;
 }
 
-.form-container {
-    width: 100%;
-}
-
-.form-group {
+/* Cuadro del formulario de salas */
+.bg-gray-100 {
+    background: #242326 !important;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+    padding: 40px 32px 26px 32px;
+    border: 2px solid #C60017;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
 }
 
-label {
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #FFF;
-}
-
-input[type="text"],
-textarea {
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
-    background-color: #232326;
-    color: #FFF;
-    font-size: 1rem;
-}
-
-textarea {
-    resize: none;
-}
-
-input:focus,
-textarea:focus {
-    outline: 2px solid #C60017; /* Rojo Cinemark */
-}
-
-.btn-action {
-    background-color: #C60017; /* Rojo Cinemark */
-    color: #FFF;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
-}
-
-.btn-action:hover {
-    background-color: #F6C700; /* Amarillo Cinemark */
-    color: #C60017;
-    transform: scale(1.05);
-}
-
-.salas-list {
-    margin-top: 30px;
-    width: 100%;
-    background-color: #232326; /* fondo oscuro Cinemark */
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #444;
-}
-
-.salas-list h2 {
-    margin-top: 0;
-    color: #C60017;
-    text-align: center;
-}
-
-#salasContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.sala-card {
-    background-color: #282828; /* variante oscura Cinemark */
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-.sala-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.sala-card h3 {
-    margin: 10px 0 5px 0;
-    color: #C60017;
-}
-
-.sala-card p {
-    font-size: 0.9rem;
-    color: #F6C700; /* amarillo Cinemark */
-}
-
-.sala-card .price {
+form label {
+    font-weight: 600;
     color: #F6C700;
+    margin-bottom: 4px;
+    font-size: 1.08rem;
+    display: block;
+}
+
+form input[type="text"],
+form input[type="file"],
+form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1.5px solid #C60017;
+    margin-bottom: 10px;
+    background: #e8eff7;
+    color: #232326;
+    font-size: 1.1rem;
+    resize: none;
+    box-sizing: border-box;
+    transition: border 0.2s, background 0.22s;
+}
+
+form input[type="file"] {
+    background: #19191A;
+    color: #FFF;
+    border: none;
+    font-size: 1rem;
+    padding: 8px 0;
+}
+
+form textarea:focus,
+form input[type="text"]:focus {
+    border: 2px solid #F6C700;
+    outline: none;
+    background: #fffbe5;
+}
+
+/* Botones del formulario */
+form button[type="submit"], .bg-purple-600 {
+    background: #C60017 !important;
+    color: #FFF !important;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 0;
+    font-size: 1.13rem;
     font-weight: bold;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+    margin-right: 8px;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+    flex: 1;
+}
+
+form button[type="submit"]:hover, .bg-purple-600:hover {
+    background: #F6C700 !important;
+    color: #C60017 !important;
+}
+
+form button[type="button"], .bg-gray-500 {
+    background: #232326 !important;
+    color: #FFF !important;
+    border: 2px solid #C60017 !important;
+    border-radius: 8px;
+    padding: 13px 0;
+    font-size: 1.13rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, border 0.16s;
+    min-width: 120px;
+    flex: 1;
+    letter-spacing: 0.5px;
+}
+
+form button[type="button"]:hover, .bg-gray-500:hover {
+    background: #F6C700 !important;
+    color: #232326 !important;
+    border-color: #F6C700 !important;
+}
+
+/* Tabla de salas */
+table {
+    width: 100%;
+    border-radius: 9px;
+    background: #232326;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 24px;
+    font-size: 1.07rem;
+    color: #FFF;
+    overflow: hidden;
+}
+table thead th {
+    background: #C60017;
+    color: #FFF;
+    font-weight: bold;
+    padding: 12px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom: 1px solid #C60017;
+}
+table tr {
+    border-bottom: 1px solid #333;
+}
+table td {
+    padding: 15px 15px 13px 15px;
+    color: #FFF;
+    background: #242326;
+    vertical-align: middle;
+}
+table tr:nth-child(even) td {
+    background: #202024;
+}
+
+/* Responsive para Salas */
+@media (max-width: 680px) {
+    .container {
+        padding: 0 2vw;
+        max-width: 99vw;
+    }
+    .bg-gray-100 {
+        padding: 20px 6px 16px 6px;
+        box-sizing: border-box;
+    }
+    table, tbody, tr, td, th {
+        font-size: 0.97rem;
+    }
 }

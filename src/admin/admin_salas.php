@@ -2,6 +2,8 @@
 require_once '../security/admin_check.php';
 require_once '../public/header.php';
 ?>
+<link rel="stylesheet" href="css/admin_salas.css">
+
 <div class="container mx-auto p-4">
     <h1 class="text-3xl font-bold mb-6 text-purple-700">Gestión de Salas</h1>
     <div class="bg-gray-100 p-6 rounded shadow mb-8">

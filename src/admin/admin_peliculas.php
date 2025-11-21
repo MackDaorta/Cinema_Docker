@@ -2,7 +2,7 @@
 require_once '../security/admin_check.php';
 require_once '../public/header.php';
 ?>
-<link rel="stylesheet" href="/css/admin_peliculas.css">
+<link rel="stylesheet" href="css/admin_peliculas.css">
 <style>
     .centro { max-width: 1200px; margin: 0 auto; padding: 20px; }
     .form-container { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
