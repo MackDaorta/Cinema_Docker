@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #19191A; /* Fondo Cinemark oscuro */
+  font-family: 'Work Sans', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.contenedor-login {
+  background-color: #232326; /* Fondo modal Cinemark oscuro */
+  padding: 40px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  border: 2px solid #C60017;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h2 {
+  color: #C60017; /* Rojo Cinemark */
+  text-align: center;
+  font-weight: bold;
+}
+
+input {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #282828;
+  color: #FFF;
+}
+
+input:focus {
+  outline: 2px solid #C60017; /* Rojo Cinemark */
+}
+
+.btn-action,button {
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  background-color: #C60017; /* Rojo Cinemark */
+  color: #FFF;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover,
+.btn-action:hover {
+  background-color: #F6C700; /* Amarillo Cinemark */
+  color: #C60017;
+}
