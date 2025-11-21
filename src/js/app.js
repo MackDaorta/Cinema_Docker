@@ -121,5 +121,147 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error en la carga:', error);
             peliculasContainer.innerHTML = '<p>Error al cargar el contenido.</p>';
         });
-    
+    // =====================================================
+// LÓGICA PÚBLICA: CARGAR CONFITERÍA
+// =====================================================
+if (document.getElementById('pagina-confiteria')) {
+    fetch('/api/obtener_productos.php')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('confiteria-contenido');
+            if (!data.success || Object.keys(data.productos).length === 0) {
+                container.innerHTML = '<p class="text-center">No hay productos disponibles.</p>';
+                return;
+            }
+
+            let html = '';
+            // Recorremos las categorías (Combos, Bebidas, etc.)
+            for (const [categoria, productos] of Object.entries(data.productos)) {
+                html += `
+                    <section class="categoria-section">
+                        <h2 class="categoria-title">${categoria}</h2>
+                        <div class="productos-grid">
+                `;
+                
+                productos.forEach(prod => {
+                    const imgPath = prod.imagen ? `/uploads/productos/${prod.imagen}` : '/uploads/default.png';
+                    html += `
+                        <div class="producto-card">
+                            <img src="${imgPath}" alt="${prod.nombre}">
+                            <h3>${prod.nombre}</h3>
+                            <p>${prod.descripcion || ''}</p>
+                            <p class="precio">S/. ${prod.precio}</p>
+                            <button class="bg-red-600 text-white px-4 py-1 rounded mt-2 hover:bg-red-700">Agregar</button>
+                        </div>
+                    `;
+                });
+
+                html += `</div></section>`;
+            }
+            container.innerHTML = html;
+        })
+        .catch(err => console.error(err));
+}
+
+// =====================================================
+// LÓGICA ADMIN: GESTIÓN DE PRODUCTOS
+// =====================================================
+function initAdminProductos() {
+    const tablaBody = document.getElementById('tabla-productos-body');
+    const form = document.getElementById('form-producto');
+
+    // 1. Cargar Productos en la tabla
+    cargarTabla();
+
+    function cargarTabla() {
+        fetch('/api/productos_crud.php')
+            .then(res => res.json())
+            .then(data => {
+                let html = '';
+                data.productos.forEach(prod => {
+                    const imgPath = prod.imagen ? `/uploads/productos/${prod.imagen}` : '/uploads/default.png';
+                    html += `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="p-2"><img src="${imgPath}" class="w-16 h-16 object-cover rounded"></td>
+                            <td class="p-2 font-bold">${prod.nombre}</td>
+                            <td class="p-2"><span class="bg-gray-200 px-2 py-1 rounded text-xs">${prod.categoria}</span></td>
+                            <td class="p-2">S/. ${prod.precio}</td>
+                            <td class="p-2 flex gap-2">
+                                <button onclick="editarProducto('${prod.id}')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm">Editar</button>
+                                <button onclick="eliminarProducto('${prod.id}')" class="bg-red-500 text-white px-3 py-1 rounded text-sm">Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                tablaBody.innerHTML = html;
+            });
+    }
+
+    // 2. Manejar Envío del Formulario (Crear/Editar)
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        fetch('/api/productos_crud.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                alert(data.message);
+                limpiarFormulario();
+                cargarTabla();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        });
+    });
+}
+
+// Funciones globales para que el HTML las vea (onclick)
+window.editarProducto = function(id) {
+    fetch(`/api/productos_crud.php?id=${id}`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                const p = data.producto;
+                document.getElementById('prod_id').value = p.id;
+                document.getElementById('prod_nombre').value = p.nombre;
+                document.getElementById('prod_precio').value = p.precio;
+                document.getElementById('prod_categoria').value = p.categoria;
+                document.getElementById('prod_descripcion').value = p.descripcion;
+                document.getElementById('prod_imagen_actual').value = p.imagen;
+                document.getElementById('prod_disponible').checked = (p.disponible == 1);
+                
+                document.getElementById('form-title').innerText = "Editar Producto: " + p.nombre;
+                window.scrollTo(0,0); // Subir para ver el form
+            }
+        });
+};
+
+window.eliminarProducto = function(id) {
+    if(!confirm('¿Estás seguro de eliminar este producto?')) return;
+
+    fetch('/api/productos_crud.php', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success) {
+            initAdminProductos(); // Recargar tabla
+        } else {
+            alert('Error al eliminar');
+        }
+    });
+};
+
+window.limpiarFormulario = function() {
+    document.getElementById('form-producto').reset();
+    document.getElementById('prod_id').value = '';
+    document.getElementById('prod_imagen_actual').value = '';
+    document.getElementById('form-title').innerText = "Agregar Nuevo Producto";
+};
 });

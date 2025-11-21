@@ -1,8 +1,8 @@
 <?php
 
-
-header('Content-Type: application/json');
-
+if (!defined('MODO_HTML')) {
+    header('Content-Type: application/json');
+}
 
 $host = 'db'; 
 $db   = 'cine_db'; 
@@ -17,15 +17,16 @@ $options = [
 ];
 
 try {
-    
     $pdo = new PDO($dsn, $user, $pass, $options);
 } 
-//Si algo falla mostrara esto
 catch (\PDOException $e) {
-    
+    // Si estamos en modo HTML, mostramos un error simple en pantalla
+    if (defined('MODO_HTML')) {
+        die("Error de conexión a la base de datos: " . $e->getMessage());
+    }
+    // Si es API, devolvemos JSON
     http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Error en la conexion a la Base de datos: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'error' => 'Database connection failed: ' . $e->getMessage()]);
     exit;
 }
-
 ?>

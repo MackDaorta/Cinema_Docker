@@ -1,5 +1,5 @@
 <?php
-<?php
+
 require_once '../security/admin_check.php';
 require_once __DIR__ . '/../config/conexionDB.php';
 

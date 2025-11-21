@@ -1,137 +1,85 @@
 <?php
 require_once '../security/admin_check.php';
-require_once __DIR__ . '/../config/conexionDB.php';
-
-session_start();
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-$csrf = $_SESSION['csrf_token'];
-
-function h($v){ return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8'); }
-function getVal($obj, $key){
-    if (is_object($obj) && isset($obj->$key)) return $obj->$key;
-    if (is_array($obj) && isset($obj[$key])) return $obj[$key];
-    return null;
-}
-
-// Cargar productos desde la BD
-$productos = [];
-$error = '';
-
-try {
-    $productos = $pdo->query("SELECT id, nombre, descripcion, precio, imagen, categoria FROM Producto ORDER BY nombre ASC")->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    $error = 'Error al cargar los productos: ' . $e->getMessage();
-}
+require_once '../public/header.php'; // Reutilizamos el header público
 ?>
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <title>Gestión de Productos - Cinemark</title>
-  <link rel="stylesheet" href="/static/administrator/style.css">
-  <link rel="stylesheet" href="/static/administrator/admin.css">
-  <link rel="stylesheet" href="/static/administrator/admin_productos.css">
-</head>
-<body>
-<div class="centro">
-  <h2 class="titulo">Gestión de Productos</h2>
-  
-  <div class="form-container">
-    <h3>Agregar Nuevo Producto</h3>
-    <form id="productForm" method="POST" enctype="multipart/form-data" action="admin_productos_procesar.php">
-      <input type="hidden" name="csrf_token" value="<?php echo h($csrf); ?>">
-      
-      <div class="form-group">
-        <label for="nombre">Nombre del Producto:</label>
-        <input type="text" id="nombre" name="nombre" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required></textarea>
-      </div>
-      
-      <div class="form-group">
-        <label for="precio">Precio (Ej: 15.50):</label>
-        <input type="number" step="0.01" id="precio" name="precio" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="imagen">Imagen:</label>
-        <input type="file" id="imagen" name="imagen" accept="image/*" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="categoria">Categoría:</label>
-        <select id="categoria" name="categoria" required>
-          <option value="">Seleccione la categoría</option>
-          <option value="COMBO">Combo</option>
-          <option value="POPCORN">Popcorn</option>
-          <option value="BEBIDA">Bebida</option>
-          <option value="SNACK">Snack</option>
-          <option value="COLECCIONABLES">Coleccionables</option>
-          <option value="OTRO">Otro</option>
-        </select>
-      </div>
-      
-      <button type="submit" class="btn-action">Agregar Producto</button>
-      
-      <?php if (!empty($error)): ?>
-        <p style="color: red; margin-top: 10px;"><?php echo h($error); ?></p>
-      <?php endif; ?>
-    </form>
-  </div>
 
-  <div class="products-list">
-    <h2>Lista de Productos</h2>
-    <div id="productsContainer">
-      <?php if (!empty($productos)): ?>
-        <?php foreach ($productos as $producto): ?>
-          <?php
-            $img = $producto['imagen'] ?? '';
-            $imgUrl = '';
-            
-            if (is_object($img)) {
-              $imgUrl = getVal($img, 'url') ?? ($img->url ?? '');
-            } elseif (is_array($img)) {
-              $imgUrl = $img['url'] ?? '';
-            } else {
-              $imgUrl = $img ?? '';
-            }
-            
-            $nombre = $producto['nombre'] ?? '';
-            $precio = $producto['precio'] ?? '';
-            $categoria = $producto['categoria'] ?? '';
-            $id = $producto['id'] ?? '';
-          ?>
-          <div class="product-item">
-            <div class="product-content">
-              <?php if (!empty($imgUrl)): ?>
-                <img src="<?php echo h($imgUrl); ?>" alt="<?php echo h($nombre); ?>" class="product-image">
-              <?php endif; ?>
-              <div class="product-info">
-                <h4><?php echo h($nombre); ?></h4>
-                <p><strong>Categoría:</strong> <?php echo h($categoria); ?></p>
-                <p><strong>Precio:</strong> S/. <?php echo h(number_format((float)$precio, 2, '.', '')); ?></p>
-              </div>
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-6 text-red-600">Gestión de Productos (Confitería)</h1>
+
+    
+    <div class="bg-gray-100 p-6 rounded shadow mb-8">
+        <h2 class="text-xl font-bold mb-4" id="form-title">Agregar Nuevo Producto</h2>
+        <form id="form-producto" enctype="multipart/form-data">
+            <input type="hidden" name="id" id="prod_id">
+            <input type="hidden" name="imagen_actual" id="prod_imagen_actual">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">Nombre:</label>
+                    <input type="text" name="nombre" id="prod_nombre" class="w-full p-2 border rounded" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Precio:</label>
+                    <input type="number" step="0.01" name="precio" id="prod_precio" class="w-full p-2 border rounded" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Categoría:</label>
+                    <select name="categoria" id="prod_categoria" class="w-full p-2 border rounded">
+                        <option value="COMBO">Combo</option>
+                        <option value="POPCORN">Popcorn</option>
+                        <option value="BEBIDA">Bebida</option>
+                        <option value="SNACK">Snack</option>
+                        <option value="COLECCIONABLES">Coleccionables</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Imagen:</label>
+                    <input type="file" name="imagen" id="prod_imagen" class="w-full p-2 border rounded">
+                </div>
             </div>
-            <div class="actions">
-              <a href="admin_productos_editar.php?id=<?php echo h($id); ?>" class="btn-edit">Editar</a>
-              <form action="admin_productos_eliminar.php" method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este producto?');">
-                <input type="hidden" name="csrf_token" value="<?php echo h($csrf); ?>">
-                <input type="hidden" name="id" value="<?php echo h($id); ?>">
-                <button type="submit" class="btn-delete">Eliminar</button>
-              </form>
+            <div class="mt-4">
+                <label class="block text-gray-700">Descripción:</label>
+                <textarea name="descripcion" id="prod_descripcion" class="w-full p-2 border rounded"></textarea>
             </div>
-          </div>
-        <?php endforeach; ?>
-      <?php else: ?>
-        <p>No hay productos registrados todavía.</p>
-      <?php endif; ?>
+            <div class="mt-4">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="disponible" id="prod_disponible" checked class="form-checkbox h-5 w-5 text-red-600">
+                    <span class="ml-2 text-gray-700">Disponible para la venta</span>
+                </label>
+            </div>
+            
+            <div class="mt-6 flex gap-2">
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Guardar Producto</button>
+                <button type="button" onclick="limpiarFormulario()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar / Limpiar</button>
+            </div>
+        </form>
     </div>
-  </div>
+
+    <!-- Tabla de Productos -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead class="bg-gray-800 text-white">
+                <tr>
+                    <th class="py-2 px-4">Imagen</th>
+                    <th class="py-2 px-4">Nombre</th>
+                    <th class="py-2 px-4">Categoría</th>
+                    <th class="py-2 px-4">Precio</th>
+                    <th class="py-2 px-4">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-productos-body">
+                
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<script src="/js/app.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        initAdminProductos(); 
+    });
+</script>
 </body>
 </html>
