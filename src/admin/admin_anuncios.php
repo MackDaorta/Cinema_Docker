@@ -3,7 +3,7 @@ require_once '../security/admin_check.php';
 require_once '../public/header.php';
 ?>
     <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="css/anuncio.css">
+<link rel="stylesheet" href="css/admin_anuncios.css">
 <style>
     .main-content { max-width: 1000px; margin: 20px auto; padding: 20px; }
     .form-container { background: gray; padding: 25px; border-radius: 8px; margin-bottom: 30px; }
