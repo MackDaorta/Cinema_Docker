@@ -9,7 +9,6 @@
         <a href="/public/conocenos.php">Conocenos</a>
         <a href="/public/ubicanos.php" >Ubicanos</a>
         <?php 
-        //Verifica si el usuario ha iniciado sesión
         if (isset($usuario)){
             if (isset($usuario['es_admin']) && $usuario['es_admin']){
                 echo '<a href="/admin/admin_panel.php">Panel Admin</a>';

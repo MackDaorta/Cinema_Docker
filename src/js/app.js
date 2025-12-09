@@ -1,32 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // =====================================================
-    // 1. LÓGICA PÚBLICA (Frontend)
-    // =====================================================
     
-    // Detectar página de Cartelera
     if (document.getElementById('pagina-cartelera')) {
         cargarCarteleraPublica();
     }
     
-    // Detectar página de Confitería
     if (document.getElementById('pagina-confiteria')) {
         cargarConfiteriaPublica();
     }
     
-    // Detectar Home (si existen los contenedores de sliders)
     if (document.getElementById('sliders-container')) {
         cargarHomePublico();
     }
     
-    // Detectar página de Salas Públicas
     if (document.getElementById('pagina-salas')) {
         cargarSalasPublicas();
     }
 });
 
-/* -------------------------------------------------------------------------- */
-/* FUNCIONES PÚBLICAS                           */
-/* -------------------------------------------------------------------------- */
 
 function cargarCarteleraPublica() {
     console.log("Cargando cartelera...");
@@ -41,7 +31,6 @@ function cargarCarteleraPublica() {
 
             let html = '';
             data.peliculas.forEach(peli => {
-                // Formateos
                 const horas = Math.floor(peli.duracion_minutos / 60);
                 const minutos = peli.duracion_minutos % 60;
                 const duracionTexto = `${horas}h ${minutos}m`;
@@ -49,10 +38,8 @@ function cargarCarteleraPublica() {
                 let sinopsis = peli.sinopsis || '';
                 if (sinopsis.length > 150) sinopsis = sinopsis.substring(0, 150) + '...';
 
-                // Imagen con fallback
                 const imgPath = peli.imagen ? `/uploads/peliculas/${peli.imagen}` : '/uploads/default_poster.jpg';
 
-                // Salas y Géneros
                 let salasHtml = (peli.salas && peli.salas.length) 
                     ? peli.salas.map(s => `<span class="etiqueta-sala">${s}</span>`).join('') 
                     : '<span class="etiqueta-sala">N/A</span>';
@@ -91,7 +78,6 @@ function cargarConfiteriaPublica() {
 
     console.log("Cargando confitería...");
     
-    // Usamos la API que agrupa por categorías
     fetch('/api/obtener_productos.php') 
         .then(res => res.json())
         .then(data => {
@@ -103,10 +89,8 @@ function cargarConfiteriaPublica() {
 
             let htmlCompleto = '';
 
-            // Recorremos el objeto agrupado: { "COMBO": [...], "SNACK": [...] }
             for (const [categoria, listaProductos] of Object.entries(data.productos)) {
                 
-                // 1. Crear Título de Categoría
                 htmlCompleto += `
                     <section class="categoria">
                         <h3>
@@ -115,7 +99,6 @@ function cargarConfiteriaPublica() {
                         <div class="productos">
                 `;
 
-                // 2. Recorrer productos de ESTA categoría
                 listaProductos.forEach(prod => {
                     const img = prod.imagen ? `/uploads/productos/${prod.imagen}` : '/uploads/default.png';
                     
@@ -153,13 +136,11 @@ function cargarHomePublico() {
 
             if (!data.success) return;
 
-            // 1. SLIDERS
         
             if (data.sliders && data.sliders.length > 0) {
                 let htmlS = '';
                 data.sliders.forEach(s => {
                     const img = s.imagen ? `/uploads/anuncios/${s.imagen}` : '/uploads/default.png';
-                    // Lógica de enlace
                     const content = s.link 
                         ? `<a href="${s.link}" target="_blank"><img src="${img}" alt="${s.nombre}"></a>`
                         : `<img src="${img}" alt="${s.nombre}">`;
@@ -176,7 +157,6 @@ function cargarHomePublico() {
                 slidersContainer.innerHTML = '<p style="text-align:center; padding:20px;">No hay sliders.</p>';
             }
 
-            // 2. PROMOCIONES
             
             if (promocionesFotos) {
                 if (data.promociones && data.promociones.length > 0) {
@@ -226,19 +206,14 @@ function cargarSalasPublicas() {
 }
 
 
-/* -------------------------------------------------------------------------- */
-/* FUNCIONES ADMIN                              */
-/* -------------------------------------------------------------------------- */
 
-// === 1. ADMIN PELICULAS ===
 function initAdminPeliculas() {
-    const form = document.getElementById('productForm'); // ID del formulario en admin_peliculas.php
+    const form = document.getElementById('productForm'); 
     if (!form) return;
 
     const selGeneros = document.getElementById('generos');
     const selSalas = document.getElementById('salas');
 
-    // Cargar opciones para los selects múltiples
     fetch('/api/peliculas_crud.php?action=options').then(r => r.json()).then(d => {
         if (d.success) {
             selGeneros.innerHTML = d.generos.map(g => `<option value="${g.id}">${g.nombre}</option>`).join('');
@@ -271,11 +246,8 @@ function cargarPeliculasAdmin() {
             return;
         }
         
-        // Usamos estructura similar a tu HTML original de admin
         let html = '';
         d.peliculas.forEach(p => {
-            // Nota: La lista principal GET a veces trae datos básicos. 
-            // Si necesitas la imagen en la lista, asegúrate que el PHP la devuelva en el SELECT.
             html += `
             <div class="pelicula-item">
                 <div class="peliculas-info">
@@ -308,8 +280,6 @@ window.editarPelicula = function(id) {
                 document.getElementById('preview-txt').innerText = p.imagen ? "Imagen actual: " + p.imagen : "";
             }
             
-            // Marcar selects múltiples
-            // data.generos_ids y data.salas_ids vienen del backend
             const selGeneros = document.getElementById('generos');
             Array.from(selGeneros.options).forEach(o => o.selected = d.generos_ids.includes(o.value));
             
@@ -331,7 +301,6 @@ window.limpiarFormPelicula = function() {
 }
 
 
-// === 2. ADMIN PRODUCTOS ===
 function initAdminProductos() {
     const form = document.getElementById('form-producto'); 
     if(!form) return;
@@ -350,7 +319,6 @@ function cargarTablaProductos() {
     fetch('/api/productos_crud.php').then(r => r.json()).then(d => {
         let html = '';
         if(d.productos) d.productos.forEach(p => {
-            // Mostrar estado Disponible/No Disponible
             const estado = (p.disponible == 1) ? '<span style="color:green;">Disponible</span>' : '<span style="color:red;">No Disponible</span>';
             
             html += `<tr>
@@ -377,7 +345,6 @@ window.editarProducto = function(id) {
         document.getElementById('prod_descripcion').value = p.descripcion; 
         document.getElementById('prod_imagen_actual').value = p.imagen; 
         
-        // Marcar o desmarcar el checkbox según la BD
         document.getElementById('prod_disponible').checked = (p.disponible == 1);
 
         window.scrollTo(0,0); 
@@ -387,9 +354,8 @@ window.editarProducto = function(id) {
 window.limpiarFormProducto = function() { 
     document.getElementById('form-producto').reset(); 
     document.getElementById('prod_id').value = ''; 
-    document.getElementById('prod_disponible').checked = true; // Resetear a true por defecto
+    document.getElementById('prod_disponible').checked = true; 
 }
-// === 3. ADMIN ANUNCIOS ===
 function initAdminAnuncios() {
     const form = document.getElementById('form-promocion');
     if (!form) return;
@@ -425,7 +391,6 @@ window.editarAnuncio = function(id) {
 window.limpiarFormAnuncio = function() { document.getElementById('form-promocion').reset(); document.getElementById('anuncio_id').value = ''; }
 
 
-// === 4. ADMIN SALAS ===
 function initAdminSalas() {
     const form = document.getElementById('form-sala');
     if (!form) return;
@@ -447,7 +412,6 @@ window.editarSala = function(id) { fetch(`/api/salas_crud.php?id=${id}`).then(r 
 window.limpiarFormSala = function() { document.getElementById('form-sala').reset(); document.getElementById('sala_id').value = ''; }
 
 
-// === 5. ADMIN GENEROS ===
 function initAdminGeneros() {
     const form = document.getElementById('form-genero');
     if (!form) return;
@@ -469,7 +433,6 @@ window.editarGenero = function(id) { fetch(`/api/generos_crud.php?id=${id}`).the
 window.limpiarFormGenero = function() { document.getElementById('form-genero').reset(); document.getElementById('genero_id').value = ''; }
 
 
-// === HELPER GLOBAL ===
 window.eliminarGenerico = function(url, id, callback) {
     if (!confirm('¿Confirmar eliminación?')) return;
     fetch(url, {

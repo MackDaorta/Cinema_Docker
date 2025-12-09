@@ -9,9 +9,7 @@ $usuario = $_SESSION["user"] ?? null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ubícanos - Cinemark</title>
     
-    <!-- Estilos Globales -->
     <link rel="stylesheet" href="/css/style.css">
-    <!-- Estilos Específicos de Ubicanos -->
     <link rel="stylesheet" href="/css/ubicanos.css">
 </head>
 <body>

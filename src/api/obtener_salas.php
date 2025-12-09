@@ -1,14 +1,22 @@
 <?php
-// Usamos la conexión centralizada
-require_once '../config/conexionDB.php';
 
-$data = [];
+require_once '../app/Models/SalaModel.php'; 
+require_once '../app/Controllers/SalaController.php'; 
+
+
+require_once '../config/conexionDB.php'; 
+
+
+use App\Controllers\SalaController;
+
+header('Content-Type: application/json');
 
 try {
-    // Consultamos todas las salas
-    $stmt = $pdo->query("SELECT * FROM Sala ORDER BY nombre ASC");
-    $salas = $stmt->fetchAll();
+    
+    $controller = new SalaController($pdo);
+    $salas = $controller->obtenerSalas(); 
 
+    
     echo json_encode(['success' => true, 'salas' => $salas]);
 
 } catch (\PDOException $e) {

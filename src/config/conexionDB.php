@@ -20,11 +20,9 @@ try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } 
 catch (\PDOException $e) {
-    // Si estamos en modo HTML, mostramos un error simple en pantalla
     if (defined('MODO_HTML')) {
         die("Error de conexión a la base de datos: " . $e->getMessage());
     }
-    // Si es API, devolvemos JSON
     http_response_code(500);
     echo json_encode(['success' => false, 'error' => 'Database connection failed: ' . $e->getMessage()]);
     exit;

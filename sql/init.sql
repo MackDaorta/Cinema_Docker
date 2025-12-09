@@ -1,15 +1,15 @@
 
 CREATE TABLE Sala (
     id CHAR(36) PRIMARY KEY NOT NULL,
-    nombre VARCHAR(10) UNIQUE NOT NULL, -- CHAR: texto fijo
+    nombre VARCHAR(10) UNIQUE NOT NULL,
     descripcion TEXT,
-    imagen VARCHAR(100) NOT NULL -- VARCHAR: texto variable
-) ENGINE=InnoDB; -- ENGINE=InnoDB: motor transaccional con FK
+    imagen VARCHAR(100) NOT NULL 
+) ENGINE=InnoDB; 
 
 
 CREATE TABLE Genero (
     id CHAR(36) PRIMARY KEY NOT NULL,
-    nombre VARCHAR(50) UNIQUE NOT NULL, -- unique=True
+    nombre VARCHAR(50) UNIQUE NOT NULL, 
     descripcion TEXT
 ) ENGINE=InnoDB;
 
@@ -21,7 +21,7 @@ CREATE TABLE Anuncio (
     tipo VARCHAR(50) NOT NULL,
     link VARCHAR(255),
     vigencia DATE,
-    CHECK (tipo IN ('SLIDER', 'PROMOCION')) -- CHECK: limitar valores permitidos
+    CHECK (tipo IN ('SLIDER', 'PROMOCION'))
 ) ENGINE=InnoDB;
 
 CREATE TABLE Producto (
@@ -31,7 +31,7 @@ CREATE TABLE Producto (
     precio DECIMAL(5, 2) NOT NULL,
     imagen VARCHAR(100) NOT NULL,
     categoria VARCHAR(50) NOT NULL DEFAULT 'OTRO',
-    disponible BOOLEAN NOT NULL DEFAULT TRUE, -- BOOLEAN: verdadero/falso
+    disponible BOOLEAN NOT NULL DEFAULT TRUE, 
     CHECK (categoria IN ('COMBO', 'POPCORN', 'BEBIDA', 'SNACK', 'COLECCIONABLES'))
 ) ENGINE=InnoDB;
 
@@ -42,7 +42,7 @@ CREATE TABLE Pelicula (
     sinopsis TEXT,
     imagen VARCHAR(100) NOT NULL,
     restriccion VARCHAR(30) NOT NULL,
-    duracion_minutos INT UNSIGNED NOT NULL, -- PositiveIntegerField
+    duracion_minutos INT UNSIGNED NOT NULL, 
     fecha_estreno DATE NOT NULL,
     CHECK (restriccion IN ('APT', '+14', '+18'))
 ) ENGINE=InnoDB;

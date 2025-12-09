@@ -10,7 +10,7 @@ $usuario = $_SESSION["user"] ?? null;
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/confiteria.css">
 </head>
-<body id="pagina-confiteria"> <!-- ID para que el JS sepa dónde está -->
+<body id="pagina-confiteria"> 
 
 <?php
 require_once __DIR__ . '/header.php'; 
@@ -18,7 +18,6 @@ require_once __DIR__ . '/header.php';
 <main>
     <h1 class="titulo">Menú Confiteria:</h1>
     
-    <!-- Contenedor principal donde JS inyectará las categorías -->
      
     <div id="confiteria-contenido">
         <p class="text-center">Cargando deliciosos productos...</p>

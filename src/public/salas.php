@@ -9,12 +9,10 @@ $usuario = $_SESSION["user"] ?? null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salas - Cinemark</title>
     
-    <!-- Estilos Globales -->
     <link rel="stylesheet" href="/css/style.css">
-    <!-- Estilos Específicos de Sala (Asegúrate de tener este archivo) -->
     <link rel="stylesheet" href="/css/salas.css">
 </head>
-<body id="pagina-salas"> <!-- ID clave para el JS -->
+<body id="pagina-salas"> 
 
 <?php require_once __DIR__ . '/header.php'; ?>
 

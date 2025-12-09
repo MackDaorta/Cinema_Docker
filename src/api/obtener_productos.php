@@ -1,27 +1,23 @@
 <?php
-// Usamos la conexión centralizada
-require_once '../config/conexionDB.php';
 
-$data = [];
+require_once '../app/Models/ProductoModel.php'; 
+require_once '../app/Controllers/ProductoController.php'; 
+
+
+require_once '../config/conexionDB.php'; 
+
+
+use App\Controllers\ProductoController;
+
+header('Content-Type: application/json');
 
 try {
-    // 1. Obtener solo productos disponibles
-    $stmt = $pdo->query("SELECT * FROM Producto WHERE disponible = 1 ORDER BY categoria ASC, nombre ASC");
-    $productos = $stmt->fetchAll();
+    
+    $controller = new ProductoController($pdo);
+    $productos_agrupados = $controller->obtenerYAgruparProductos();
 
-    // 2. Agrupar por Categoría
-    // El resultado será: { "COMBO": [prod1, prod2], "BEBIDA": [prod3], ... }
-    $agrupados = [];
-    foreach ($productos as $prod) {
-        $categoria = $prod->categoria;
-        // Inicializar array si es la primera vez que vemos esta categoría
-        if (!isset($agrupados[$categoria])) {
-            $agrupados[$categoria] = [];
-        }
-        $agrupados[$categoria][] = $prod;
-    }
-
-    echo json_encode(['success' => true, 'productos' => $agrupados]);
+    
+    echo json_encode(['success' => true, 'productos' => $productos_agrupados]);
 
 } catch (\PDOException $e) {
     http_response_code(500);
