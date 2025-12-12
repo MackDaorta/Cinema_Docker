@@ -1,3 +1,4 @@
+// Cuando el DOM está listo, detecta qué página es y llama a la función adecuada
 document.addEventListener('DOMContentLoaded', () => {
     
     if (document.getElementById('pagina-cartelera')) {
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
+// Obtiene cartelera desde la API y pinta las tarjetas de película
 function cargarCarteleraPublica() {
     console.log("Cargando cartelera...");
     fetch('/api/obtener_peliculas.php')
@@ -31,9 +32,9 @@ function cargarCarteleraPublica() {
 
             let html = '';
             data.peliculas.forEach(peli => {
-                const horas = Math.floor(peli.duracion_minutos / 60);
-                const minutos = peli.duracion_minutos % 60;
-                const duracionTexto = `${horas}h ${minutos}m`;
+                const horas = Math.floor(peli.duracion_minutos / 60);   // Convierte minutos a horas
+                const minutos = peli.duracion_minutos % 60;  // Calcula minutos restantes
+                const duracionTexto = `${horas}h ${minutos}m`;  // Sinopsis segura por si viene null
                 
                 let sinopsis = peli.sinopsis || '';
                 if (sinopsis.length > 150) sinopsis = sinopsis.substring(0, 150) + '...';

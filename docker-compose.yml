@@ -1,38 +1,38 @@
-version: '3.8'
+version: '3.8' # Versión del formato de Docker Compose
 
 
 services:
   #Servicio de PHP + Apache
   app:
-    container_name: Cine_app
-    build: .
+    container_name: Cine_app  # Nombre del contenedor
+    build: .  # Usa el Dockerfile del directorio actual
     volumes:
-      - ./src:/var/www/html
+      - ./src:/var/www/html   # Sincroniza el código fuente con el contenedor
     ports:
-      - "8080:80"
+      - "8080:80"  # Expone el puerto 80 del contenedor en el 8080 local
     depends_on:
-      - db
+      - db  # Espera a que el servicio de base de datos esté listo
     networks:
-      - crud-network
+      - crud-network  # Conecta al mismo network que la base de datos
 
 #Servicio de MySQL
   db:
     image: mysql:8.0
     container_name: cine_mysql
     environment:
-    #Datos de conexion
+    # Configuración del entorno y credenciales de la BD
       MYSQL_ROOT_PASSWORD: grupo4
       MYSQL_DATABASE: cine_db
       MYSQL_USER: admin
       MYSQL_PASSWORD: 123
     
     volumes:
-      - db-data:/var/lib/mysql
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db-data:/var/lib/mysql   # Almacena datos de MySQL de forma persistente
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql   # Script SQL inicial
     networks:
       - crud-network
 networks:
   crud-network:
-    driver: bridge
+    driver: bridge  # Tipo de red predeterminada
 volumes:
   db-data:
